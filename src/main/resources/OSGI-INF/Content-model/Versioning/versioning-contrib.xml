@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component
+	name="org.athento.nuxeo.athento-nx-hrm-doctypes.versioning"
+	version="1.0.0">
+	<require>org.nuxeo.runtime.started</require>
+
+	<extension target="org.nuxeo.ecm.core.versioning.VersioningService"
+		point="versioningRules">
+
+		<versioningRule typeName="Invoice">
+			<initialState major="0" minor="0" />
+			<options lifeCycleState="*">
+				<none default="true" />
+				<minor />
+				<major />
+			</options>
+		</versioningRule>
+		
+		<versioningRule typeName="Expenses">
+			<initialState major="0" minor="0" />
+			<options lifeCycleState="*">
+				<none default="true" />
+				<minor />
+				<major />
+			</options>
+		</versioningRule>
+
+	</extension>
+
+</component>

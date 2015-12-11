@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component
+	name="org.athento.nuxeo.athento-nx-hrm-doctypes.formlayout-leaves"
+	version="1.0.0">
+	<require>org.nuxeo.runtime.started</require>
+
+	<extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager"
+		point="layouts">
+
+		<layout name="layout@formlayout-leaves">
+			<templates>
+				<template mode="any">/layouts/leaves_widget_layout_template.xhtml
+				</template>
+			</templates>
+			<properties mode="any">
+				<property name="widgetsDisplay">label_top</property>
+			</properties>
+			<rows>
+				<row>
+					<properties mode="any">
+						<property name="nxl_colspan_0">1</property>
+						<property name="nxl_colspan_1">1</property>
+					</properties>
+					<widget>leaveStartDate</widget>
+					<widget>leaveEndDate</widget>
+				</row>
+				<row>
+					<properties mode="any">
+						<property name="nxl_colspan_0">2</property>
+					</properties>
+					<widget>concept</widget>
+				</row>
+				<row>
+					<properties mode="any">
+						<property name="nxl_colspan_0">2</property>
+					</properties>
+					<widget>signDate</widget>
+				</row>
+			</rows>
+			<widget name="leaveStartDate" type="datetime">
+				<labels>
+					<label mode="any">label.hrm.leaveStartDate</label>
+				</labels>
+				<translated>true</translated>
+				<fields>
+					<field>hrm:leaveStartDate</field>
+				</fields>
+				<properties widgetMode="any">
+					<property name="format">#{nxu:basicDateFormatter()}</property>
+				</properties>
+			</widget>
+			<widget name="leaveEndDate" type="datetime">
+				<labels>
+					<label mode="any">label.hrm.leaveEndDate</label>
+				</labels>
+				<translated>true</translated>
+				<fields>
+					<field>hrm:leaveEndDate</field>
+				</fields>
+				<properties widgetMode="any">
+					<property name="format">#{nxu:basicDateFormatter()}</property>
+				</properties>
+			</widget>
+			<widget name="concept" type="text">
+				<labels>
+					<label mode="any">label.hrm.concept</label>
+				</labels>
+				<translated>true</translated>
+				<fields>
+					<field>hrm:concept</field>
+				</fields>
+			</widget>
+			<widget name="signDate" type="datetime">
+				<labels>
+					<label mode="any">label.hrm.signDate</label>
+				</labels>
+				<translated>true</translated>
+				<fields>
+					<field>hrm:signDate</field>
+				</fields>
+				<properties widgetMode="any">
+					<property name="format">#{nxu:basicDateFormatter()}</property>
+				</properties>
+			</widget>
+		</layout>
+
+	</extension>
+
+</component>
+		

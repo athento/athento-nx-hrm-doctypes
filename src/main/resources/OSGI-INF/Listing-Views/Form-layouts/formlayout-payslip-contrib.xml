@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component
+	name="org.athento.nuxeo.athento-nx-hrm-doctypes.formlayout-payslip"
+	version="1.0.0">
+	<require>org.nuxeo.runtime.started</require>
+
+	<extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager"
+		point="layouts">
+
+		<layout name="layout@formlayout-payslip">
+			<templates>
+				<template mode="any">/layouts/payslip_widget_layout_template.xhtml
+				</template>
+			</templates>
+			<properties mode="any">
+				<property name="widgetsDisplay">label_top</property>
+			</properties>
+			<rows>
+				<row>
+					<properties mode="any">
+						<property name="nxl_colspan_0">1</property>
+						<property name="nxl_colspan_1">1</property>
+					</properties>
+					<widget>payslipDate</widget>
+					<widget>payslipPayDate</widget>
+				</row>
+				<row>
+					<properties mode="any">
+						<property name="nxl_colspan_0">2</property>
+					</properties>
+					<widget>signDate</widget>
+				</row>
+			</rows>
+			<widget name="payslipDate" type="datetime">
+				<labels>
+					<label mode="any">label.hrm.payslipDate</label>
+				</labels>
+				<translated>true</translated>
+				<fields>
+					<field>hrm:payslipDate</field>
+				</fields>
+				<properties widgetMode="any">
+					<property name="format">#{nxu:basicDateFormatter()}</property>
+				</properties>
+			</widget>
+			<widget name="payslipPayDate" type="datetime">
+				<labels>
+					<label mode="any">label.hrm.payslipPayDate</label>
+				</labels>
+				<translated>true</translated>
+				<fields>
+					<field>hrm:payslipPayDate</field>
+				</fields>
+				<properties widgetMode="any">
+					<property name="format">#{nxu:basicDateFormatter()}</property>
+				</properties>
+			</widget>
+			<widget name="signDate" type="datetime">
+				<labels>
+					<label mode="any">label.hrm.signDate</label>
+				</labels>
+				<translated>true</translated>
+				<fields>
+					<field>hrm:signDate</field>
+				</fields>
+				<properties widgetMode="any">
+					<property name="format">#{nxu:basicDateFormatter()}</property>
+				</properties>
+			</widget>
+		</layout>
+
+	</extension>
+
+</component>
+		

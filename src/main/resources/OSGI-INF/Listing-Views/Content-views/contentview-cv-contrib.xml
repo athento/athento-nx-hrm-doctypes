@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component name="org.athento.nuxeo.athento-nx-hrm-doctypes.contentview-cv"
+	version="1.0.0">
+	<require>org.nuxeo.runtime.started</require>
+
+	<extension target="org.nuxeo.ecm.platform.ui.web.ContentViewService"
+		point="contentViews">
+
+		<contentView name="hrm_cv">
+			<title>label.athento-nx-hrm-doctypes.hrm_cv
+			</title>
+			<translateTitle>true</translateTitle>
+			<genericPageProvider
+				class="org.nuxeo.elasticsearch.provider.ElasticSearchNxqlPageProvider">
+				<property name="coreSession">#{documentManager}</property>
+				<whereClause>
+					<predicate parameter="hrm:concept" operator="LIKE">
+						<field schema="hrm_cv" name="hrm_concept" />
+					</predicate>
+					<predicate parameter="hrm:signDate" operator="BETWEEN">
+						<field schema="hrm_cv" name="hrm_signDate_min" />
+						<field schema="hrm_cv" name="hrm_signDate_max" />
+					</predicate>
+					<predicate parameter="hrm:applicantNameandsurname" operator="LIKE">
+						<field schema="hrm_cv" name="hrm_applicantNameandsurname" />
+					</predicate>
+					<predicate parameter="hrm:applicantBirthdate" operator="BETWEEN">
+						<field schema="hrm_cv" name="hrm_applicantBirthdate_min" />
+						<field schema="hrm_cv" name="hrm_applicantBirthdate_max" />
+					</predicate>
+					<predicate parameter="hrm:applicantMail" operator="LIKE">
+						<field schema="hrm_cv" name="hrm_applicantMail" />
+					</predicate>
+					<predicate parameter="hrm:applicantPhone" operator="LIKE">
+						<field schema="hrm_cv" name="hrm_applicantPhone" />
+					</predicate>
+					<predicate parameter="hrm:vacationStartDate" operator="BETWEEN">
+						<field schema="hrm_cv" name="hrm_vacationStartDate_min" />
+						<field schema="hrm_cv" name="hrm_vacationStartDate_max" />
+					</predicate>
+					<predicate parameter="hrm:vacationEndDate" operator="BETWEEN">
+						<field schema="hrm_cv" name="hrm_vacationEndDate_min" />
+						<field schema="hrm_cv" name="hrm_vacationEndDate_max" />
+					</predicate>
+					<predicate parameter="hrm:leaveStartDate" operator="BETWEEN">
+						<field schema="hrm_cv" name="hrm_leaveStartDate_min" />
+						<field schema="hrm_cv" name="hrm_leaveStartDate_max" />
+					</predicate>
+					<predicate parameter="hrm:leaveEndDate" operator="BETWEEN">
+						<field schema="hrm_cv" name="hrm_leaveEndDate_min" />
+						<field schema="hrm_cv" name="hrm_leaveEndDate_max" />
+					</predicate>
+					<predicate parameter="hrm:payslipDate" operator="BETWEEN">
+						<field schema="hrm_cv" name="hrm_payslipDate_min" />
+						<field schema="hrm_cv" name="hrm_payslipDate_max" />
+					</predicate>
+					<predicate parameter="hrm:payslipPayDate" operator="BETWEEN">
+						<field schema="hrm_cv" name="hrm_payslipPayDate_min" />
+						<field schema="hrm_cv" name="hrm_payslipPayDate_max" />
+					</predicate>
+					<predicate parameter="userFile:nameid" operator="LIKE">
+						<field schema="userFile_cv" name="userFile_nameid" />
+					</predicate>
+					<predicate parameter="projectFile:nameid" operator="LIKE">
+						<field schema="projectFile_cv" name="projectFile_projectid" />
+					</predicate>
+					<fixedPart>ecm:mixinType != 'HiddenInNavigation' AND
+						ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState !=
+						'deleted' AND (ecm:primaryType = 'Contract' OR ecm:primaryType =
+						'Curriculum' OR ecm:primaryType = 'Leaves' OR ecm:primaryType =
+						'Payslip' OR
+						ecm:primaryType = 'Vacations')
+					</fixedPart>
+				</whereClause>
+				<searchDocumentType>hrm_cv</searchDocumentType>
+				<sort column="dc:modified" ascending="false" />
+				<pageSize>10</pageSize>
+			</genericPageProvider>
+			<searchLayout name="hrm_cv@search" />
+			<useGlobalPageSize>true</useGlobalPageSize>
+			<refresh>
+				<event>documentChanged</event>
+				<event>documentChildrenChanged</event>
+			</refresh>
+			<cacheKey>#{currentDocument.id}</cacheKey>
+			<cacheSize>10</cacheSize>
+			<selectionList>CURRENT_SELECTION</selectionList>
+			<showTitle>false</showTitle>
+			<showFilterForm>true</showFilterForm>
+			<showPageSizeSelector>true</showPageSizeSelector>
+			<showRefreshCommand>true</showRefreshCommand>
+			<actions category="CURRENT_SELECTION_LIST" />
+			<actions category="cv_actions@Invoice_Search" />
+			<resultLayouts>
+				<layout name="document_listing_ajax" title="document_listing"
+					translateTitle="true" iconPath="/icons/document_listing_icon.png"
+					showCSVExport="true" showEditColumns="true" showSpreadsheet="true" />
+			</resultLayouts>
+			<resultColumns>#{searchDocument.cvd.selectedLayoutColumns}
+			</resultColumns>
+			<resultLayout>#{searchDocument.cvd.resultLayoutName}</resultLayout>
+			<flags>
+				<flag>SEARCH</flag>
+			</flags>
+		</contentView>
+
+	</extension>
+
+</component>

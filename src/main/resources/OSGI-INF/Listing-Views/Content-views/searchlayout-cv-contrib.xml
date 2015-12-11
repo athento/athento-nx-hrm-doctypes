@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component name="org.athento.nuxeo.athento-nx-hrm-doctypes.searchlayout-cv"
+	version="1.0.0">
+	<require>org.nuxeo.runtime.started</require>
+
+	<extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager"
+		point="layouts">
+
+		<layout name="hrm_cv@search">
+			<templates>
+				<template mode="any">/layouts/layout_default_template.xhtml
+				</template>
+			</templates>
+			<rows>
+				<row>
+					<properties mode="any">
+						<property name="nxl_colspan_0">2</property>
+					</properties>
+					<widget>hrm_concept</widget>
+				</row>
+				<row>
+					<properties mode="any">
+						<property name="nxl_colspan_0">1</property>
+						<property name="nxl_colspan_1">1</property>
+					</properties>
+					<widget>hrm_signDate_min</widget>
+					<widget>hrm_signDate_max</widget>
+				</row>
+				<row>
+					<properties mode="any">
+						<property name="nxl_colspan_0">2</property>
+					</properties>
+					<widget>hrm_applicantNameandsurname</widget>
+				</row>
+				<row>
+					<properties mode="any">
+						<property name="nxl_colspan_0">1</property>
+						<property name="nxl_colspan_1">1</property>
+					</properties>
+					<widget>hrm_applicantBirthdate_min</widget>
+					<widget>hrm_applicantBirthdate_max</widget>
+				</row>
+				<row>
+					<properties mode="any">
+						<property name="nxl_colspan_0">2</property>
+					</properties>
+					<widget>hrm_applicantMail</widget>
+				</row>
+				<row>
+					<properties mode="any">
+						<property name="nxl_colspan_0">2</property>
+					</properties>
+					<widget>hrm_applicantPhone</widget>
+				</row>
+				<row>
+					<properties mode="any">
+						<property name="nxl_colspan_0">1</property>
+						<property name="nxl_colspan_1">1</property>
+					</properties>
+					<widget>hrm_vacationStartDate_min</widget>
+					<widget>hrm_vacationStartDate_max</widget>
+				</row>
+				<row>
+					<properties mode="any">
+						<property name="nxl_colspan_0">1</property>
+						<property name="nxl_colspan_1">1</property>
+					</properties>
+					<widget>hrm_vacationEndDate_min</widget>
+					<widget>hrm_vacationEndDate_max</widget>
+				</row>
+				<row>
+					<properties mode="any">
+						<property name="nxl_colspan_0">1</property>
+						<property name="nxl_colspan_1">1</property>
+					</properties>
+					<widget>hrm_leaveStartDate_min</widget>
+					<widget>hrm_leaveStartDate_max</widget>
+				</row>
+				<row>
+					<properties mode="any">
+						<property name="nxl_colspan_0">1</property>
+						<property name="nxl_colspan_1">1</property>
+					</properties>
+					<widget>hrm_leaveEndDate_min</widget>
+					<widget>hrm_leaveEndDate_max</widget>
+				</row>
+				<row>
+					<properties mode="any">
+						<property name="nxl_colspan_0">1</property>
+						<property name="nxl_colspan_1">1</property>
+					</properties>
+					<widget>hrm_payslipDate_min</widget>
+					<widget>hrm_payslipDate_max</widget>
+				</row>
+				<row>
+					<properties mode="any">
+						<property name="nxl_colspan_0">1</property>
+						<property name="nxl_colspan_1">1</property>
+					</properties>
+					<widget>hrm_payslipPayDate_min</widget>
+					<widget>hrm_payslipPayDate_max</widget>
+				</row>
+				<row>
+					<properties mode="any">
+						<property name="nxl_colspan_0">2</property>
+					</properties>
+					<widget>userFile_nameid</widget>
+				</row>
+				<row>
+					<properties mode="any">
+						<property name="nxl_colspan_0">2</property>
+					</properties>
+					<widget>projectFile_projectid</widget>
+				</row>
+			</rows>
+
+			<widget name="hrm_concept" type="text">
+				<labels>
+					<label mode="any">label.hrm.concept</label>
+				</labels>
+				<translated>true</translated>
+				<fields>
+					<field>hrm_cv:hrm_concept</field>
+				</fields>
+			</widget>
+
+			<widget name="hrm_signDate_min" type="datetime">
+				<labels>
+					<label mode="any">label.hrm.signDate</label>
+				</labels>
+				<translated>true</translated>
+				<fields>
+					<field>hrm_cv:hrm_signDate_min</field>
+				</fields>
+				<properties widgetMode="any">
+					<property name="format">#{nxu:basicDateFormatter()}</property>
+				</properties>
+			</widget>
+
+			<widget name="hrm_signDate_max" type="datetime">
+				<labels>
+					<label mode="any"></label>
+				</labels>
+				<translated>true</translated>
+				<fields>
+					<field>hrm_cv:hrm_signDate_max</field>
+				</fields>
+				<properties widgetMode="any">
+					<property name="format">#{nxu:basicDateFormatter()}</property>
+				</properties>
+			</widget>
+
+			<widget name="hrm_applicantNameandsurname" type="text">
+				<labels>
+					<label mode="any">label.hrm.applicantNameandsurname</label>
+				</labels>
+				<translated>true</translated>
+				<fields>
+					<field>hrm_cv:hrm_applicantNameandsurname</field>
+				</fields>
+			</widget>
+
+			<widget name="hrm_applicantBirthdate_min" type="datetime">
+				<labels>
+					<label mode="any">label.hrm.applicantBirthdate</label>
+				</labels>
+				<translated>true</translated>
+				<fields>
+					<field>hrm_cv:hrm_applicantBirthdate_min</field>
+				</fields>
+				<properties widgetMode="any">
+					<property name="format">#{nxu:basicDateFormatter()}</property>
+				</properties>
+			</widget>
+
+			<widget name="hrm_applicantBirthdate_max" type="datetime">
+				<labels>
+					<label mode="any"></label>
+				</labels>
+				<translated>true</translated>
+				<fields>
+					<field>hrm_cv:hrm_applicantBirthdate_max</field>
+				</fields>
+				<properties widgetMode="any">
+					<property name="format">#{nxu:basicDateFormatter()}</property>
+				</properties>
+			</widget>
+
+			<widget name="hrm_applicantMail" type="text">
+				<labels>
+					<label mode="any">label.hrm.applicantMail</label>
+				</labels>
+				<translated>true</translated>
+				<fields>
+					<field>hrm_cv:hrm_applicantMail</field>
+				</fields>
+			</widget>
+
+			<widget name="hrm_applicantPhone" type="text">
+				<labels>
+					<label mode="any">label.hrm.applicantPhone</label>
+				</labels>
+				<translated>true</translated>
+				<fields>
+					<field>hrm_cv:hrm_applicantPhone</field>
+				</fields>
+			</widget>
+
+			<widget name="hrm_vacationStartDate_min" type="datetime">
+				<labels>
+					<label mode="any">label.hrm.vacationStartDate</label>
+				</labels>
+				<translated>true</translated>
+				<fields>
+					<field>hrm_cv:hrm_vacationStartDate_min</field>
+				</fields>
+				<properties widgetMode="any">
+					<property name="format">#{nxu:basicDateFormatter()}</property>
+				</properties>
+			</widget>
+
+			<widget name="hrm_vacationStartDate_max" type="datetime">
+				<labels>
+					<label mode="any"></label>
+				</labels>
+				<translated>true</translated>
+				<fields>
+					<field>hrm_cv:hrm_vacationStartDate_max</field>
+				</fields>
+				<properties widgetMode="any">
+					<property name="format">#{nxu:basicDateFormatter()}</property>
+				</properties>
+			</widget>
+
+			<widget name="hrm_vacationEndDate_min" type="datetime">
+				<labels>
+					<label mode="any">label.hrm.vacationEndDate</label>
+				</labels>
+				<translated>true</translated>
+				<fields>
+					<field>hrm_cv:hrm_vacationEndDate_min</field>
+				</fields>
+				<properties widgetMode="any">
+					<property name="format">#{nxu:basicDateFormatter()}</property>
+				</properties>
+			</widget>
+
+			<widget name="hrm_vacationEndDate_max" type="datetime">
+				<labels>
+					<label mode="any"></label>
+				</labels>
+				<translated>true</translated>
+				<fields>
+					<field>hrm_cv:hrm_vacationEndDate_max</field>
+				</fields>
+				<properties widgetMode="any">
+					<property name="format">#{nxu:basicDateFormatter()}</property>
+				</properties>
+			</widget>
+
+			<widget name="hrm_leaveStartDate_min" type="datetime">
+				<labels>
+					<label mode="any">label.hrm.leaveStartDate</label>
+				</labels>
+				<translated>true</translated>
+				<fields>
+					<field>hrm_cv:hrm_leaveStartDate_min</field>
+				</fields>
+				<properties widgetMode="any">
+					<property name="format">#{nxu:basicDateFormatter()}</property>
+				</properties>
+			</widget>
+
+			<widget name="hrm_leaveStartDate_max" type="datetime">
+				<labels>
+					<label mode="any"></label>
+				</labels>
+				<translated>true</translated>
+				<fields>
+					<field>hrm_cv:hrm_leaveStartDate_max</field>
+				</fields>
+				<properties widgetMode="any">
+					<property name="format">#{nxu:basicDateFormatter()}</property>
+				</properties>
+			</widget>
+
+			<widget name="hrm_leaveEndDate_min" type="datetime">
+				<labels>
+					<label mode="any">label.hrm.leaveEndDate</label>
+				</labels>
+				<translated>true</translated>
+				<fields>
+					<field>hrm_cv:hrm_leaveEndDate_min</field>
+				</fields>
+				<properties widgetMode="any">
+					<property name="format">#{nxu:basicDateFormatter()}</property>
+				</properties>
+			</widget>
+
+			<widget name="hrm_leaveEndDate_max" type="datetime">
+				<labels>
+					<label mode="any"></label>
+				</labels>
+				<translated>true</translated>
+				<fields>
+					<field>hrm_cv:hrm_leaveEndDate_max</field>
+				</fields>
+				<properties widgetMode="any">
+					<property name="format">#{nxu:basicDateFormatter()}</property>
+				</properties>
+			</widget>
+
+			<widget name="hrm_payslipDate_min" type="datetime">
+				<labels>
+					<label mode="any">label.hrm.payslipDate</label>
+				</labels>
+				<translated>true</translated>
+				<fields>
+					<field>hrm_cv:hrm_payslipDate_min</field>
+				</fields>
+				<properties widgetMode="any">
+					<property name="format">#{nxu:basicDateFormatter()}</property>
+				</properties>
+			</widget>
+
+			<widget name="hrm_payslipDate_max" type="datetime">
+				<labels>
+					<label mode="any"></label>
+				</labels>
+				<translated>true</translated>
+				<fields>
+					<field>hrm_cv:hrm_payslipDate_max</field>
+				</fields>
+				<properties widgetMode="any">
+					<property name="format">#{nxu:basicDateFormatter()}</property>
+				</properties>
+			</widget>
+
+			<widget name="hrm_payslipPayDate_min" type="datetime">
+				<labels>
+					<label mode="any">label.hrm.payslipPayDate</label>
+				</labels>
+				<translated>true</translated>
+				<fields>
+					<field>hrm_cv:hrm_payslipPayDate_min</field>
+				</fields>
+				<properties widgetMode="any">
+					<property name="format">#{nxu:basicDateFormatter()}</property>
+				</properties>
+			</widget>
+
+			<widget name="hrm_payslipPayDate_max" type="datetime">
+				<labels>
+					<label mode="any"></label>
+				</labels>
+				<translated>true</translated>
+				<fields>
+					<field>hrm_cv:hrm_payslipPayDate_max</field>
+				</fields>
+				<properties widgetMode="any">
+					<property name="format">#{nxu:basicDateFormatter()}</property>
+				</properties>
+			</widget>
+
+			<widget name="userFile_nameid" type="text">
+				<labels>
+					<label mode="any">label.hrm.userFile_nameid</label>
+				</labels>
+				<translated>true</translated>
+				<fields>
+					<field>userFile_cv:userFile_nameid</field>
+				</fields>
+			</widget>
+
+			<widget name="projectFile_projectid" type="text">
+				<labels>
+					<label mode="any">label.hrm.projectFile_projectid
+					</label>
+				</labels>
+				<translated>true</translated>
+				<fields>
+					<field>projectFile_cv:projectFile_projectid</field>
+				</fields>
+			</widget>
+
+		</layout>
+
+	</extension>
+
+</component>

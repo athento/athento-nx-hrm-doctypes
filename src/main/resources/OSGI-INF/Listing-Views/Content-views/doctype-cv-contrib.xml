@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component name="org.athento.nuxeo.athento-nx-hrm-doctypes.doctype-cv"
+	version="1.0.0">
+	<require>org.nuxeo.runtime.started</require>
+
+	<extension target="org.nuxeo.ecm.core.schema.TypeService"
+		point="doctype">
+
+		<doctype name="hrm_cv" extends="Document">
+			<facet name="ContentViewDisplay" />
+			<facet name="SavedSearch" />
+			<facet name="HiddenInNavigation" />
+			<schema name="hrm_cv" />
+			<schema name="projectFile_cv" />
+			<schema name="userFile_cv" />
+		</doctype>
+
+	</extension>
+
+	<extension target="org.nuxeo.ecm.platform.types.TypeService"
+		point="types">
+
+		<type id="hrm_cv">
+			<label>DefaultSearch</label>
+			<icon>/icons/search.png</icon>
+			<bigIcon>/icons/search_100.png</bigIcon>
+			<description>DefaultSearch.description</description>
+			<default-view>home_view_documents</default-view>
+			<layouts mode="any">
+				<layout>heading</layout>
+				<layout>hrm_cv@search</layout>
+			</layouts>
+		</type>
+
+	</extension>
+
+</component>

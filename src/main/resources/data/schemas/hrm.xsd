@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:nxs="http://www.nuxeo.org/ecm/project/schemas/athento/hrm"
+	targetNamespace="http://www.nuxeo.org/ecm/project/schemas/athento/hrm">
+	<!-- helper XSD definitions for list types -->
+	<xs:complexType name="content">
+		<xs:sequence>
+			<xs:element name="encoding" type="xs:string" />
+			<xs:element name="mime-type" type="xs:string" />
+			<xs:element name="data" type="xs:base64Binary" />
+			<xs:element name="name" type="xs:string" />
+			<xs:element name="length" type="xs:long" />
+			<xs:element name="digest" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="stringList">
+		<xs:list itemType="xs:string" />
+	</xs:simpleType>
+	<xs:simpleType name="doubleList">
+		<xs:list itemType="xs:double" />
+	</xs:simpleType>
+	<xs:simpleType name="dateList">
+		<xs:list itemType="xs:date" />
+	</xs:simpleType>
+	<xs:simpleType name="integerList">
+		<xs:list itemType="xs:integer" />
+	</xs:simpleType>
+	<xs:simpleType name="booleanList">
+		<xs:list itemType="xs:boolean" />
+	</xs:simpleType>
+	<xs:complexType name="blobList">
+		<xs:sequence>
+			<xs:element name="item" type="nxs:content" minOccurs="0"
+				maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+
+	<!-- Common HRM metadata -->
+
+	<!-- Concept for the Document -->
+	<xs:element name="concept" type="xs:string" />
+	<!-- Validation date for the Document -->
+	<xs:element name="signDate" type="xs:date" />
+
+	<!-- Curriculum -->
+
+	<!-- Curriculum Name and Surname -->
+	<xs:element name="applicantNameandsurname" type="xs:string" />
+	<!-- Curriculum Birth Date -->
+	<xs:element name="applicantBirthdate" type="xs:date" />
+	<!-- Curriculum Mail -->
+	<xs:element name="applicantMail" type="xs:string" />
+	<!-- Curriculum Phone -->
+	<xs:element name="applicantPhone" type="xs:string" />
+
+	<!-- Vacations -->
+
+	<!-- Vacation start date -->
+	<xs:element name="vacationStartDate" type="xs:date" />
+	<!-- Vacation end date -->
+	<xs:element name="vacationEndDate" type="xs:date" />
+
+	<!-- Leaves -->
+
+	<!-- Leave start date -->
+	<xs:element name="leaveStartDate" type="xs:date" />
+	<!-- Leave end date -->
+	<xs:element name="leaveEndDate" type="xs:date" />
+
+	<!-- Payslip -->
+
+	<!-- Payslip date (usually first of month) -->
+	<xs:element name="payslipDate" type="xs:date" />
+	<!-- Payslip Payment date (when it's actually paid to the employee) -->
+	<xs:element name="payslipPayDate" type="xs:date" />
+
+	<!-- Contract -->
+
+
+</xs:schema>

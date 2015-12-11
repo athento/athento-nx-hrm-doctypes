@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component name="org.athento.nuxeo.athento-nx-hrm-doctypes.doctype"
+	version="1.0.0">
+	<require>org.nuxeo.runtime.started</require>
+
+	<extension target="org.nuxeo.ecm.core.schema.TypeService"
+		point="doctype">
+
+		<doctype name="Curriculum" extends="File" append="true">
+			<schema name="hrm" />
+			<schema name="userFile" />
+			<schema name="projectFile" />
+			<schema name="common" />
+			<schema name="dublincore" />
+			<facet name="HasRelatedText" />
+			<facet name="Versionable" />
+			<facet name="Commentable" />
+			<prefetch>dc:title, dc:modified, uid.uid</prefetch>
+		</doctype>
+
+		<doctype name="Contract" extends="File" append="true">
+			<schema name="hrm" />
+			<schema name="userFile" />
+			<schema name="projectFile" />
+			<schema name="common" />
+			<schema name="dublincore" />
+			<facet name="HasRelatedText" />
+			<facet name="Versionable" />
+			<facet name="Commentable" />
+			<prefetch>dc:title, dc:modified, uid.uid</prefetch>
+		</doctype>
+
+		<doctype name="Leaves" extends="File" append="true">
+			<schema name="hrm" />
+			<schema name="userFile" />
+			<schema name="projectFile" />
+			<schema name="common" />
+			<schema name="dublincore" />
+			<facet name="HasRelatedText" />
+			<facet name="Versionable" />
+			<facet name="Commentable" />
+			<prefetch>dc:title, dc:modified, uid.uid</prefetch>
+		</doctype>
+
+		<doctype name="Payslip" extends="File" append="true">
+			<schema name="hrm" />
+			<schema name="userFile" />
+			<schema name="projectFile" />
+			<schema name="common" />
+			<schema name="dublincore" />
+			<facet name="HasRelatedText" />
+			<facet name="Versionable" />
+			<facet name="Commentable" />
+			<prefetch>dc:title, dc:modified, uid.uid</prefetch>
+		</doctype>
+
+		<doctype name="Vacations" extends="File" append="true">
+			<schema name="hrm" />
+			<schema name="userFile" />
+			<schema name="projectFile" />
+			<schema name="common" />
+			<schema name="dublincore" />
+			<facet name="HasRelatedText" />
+			<facet name="Versionable" />
+			<facet name="Commentable" />
+			<prefetch>dc:title, dc:modified, uid.uid</prefetch>
+		</doctype>
+
+	</extension>
+
+	<extension target="org.nuxeo.ecm.platform.types.TypeService"
+		point="types">
+
+		<type id="Curriculum">
+			<label>label.athento-nx-hrm-doctypes.Curriculum</label>
+			<translated>true</translated>
+			<icon>/img/file_100.png</icon>
+			<bigIcon>/img/file_100.png</bigIcon>
+			<description>label.athento-nx-hrm-doctypes.Curriculum.description
+			</description>
+			<category>label.athento-nx-hrm-doctypes.hrmCategory</category>
+			<default-view>view_documents</default-view>
+			<layouts mode="create">
+				<layout>heading</layout>
+				<layout>file</layout>
+				<layout>layout@formlayout-curriculum</layout>
+				<layout>layout@formlayout-userFileHeading</layout>
+				<layout>layout@formlayout-projectFileHeading</layout>
+			</layouts>
+			<layouts mode="edit">
+				<layout>heading</layout>
+				<layout>file</layout>
+				<layout>layout@formlayout-curriculum</layout>
+				<layout>layout@formlayout-userFileHeading</layout>
+				<layout>layout@formlayout-projectFileHeading</layout>
+			</layouts>
+			<layouts mode="view">
+				<layout>layout@formlayout-curriculum</layout>
+				<layout>layout@formlayout-userFileHeading</layout>
+				<layout>layout@formlayout-projectFileHeading</layout>
+			</layouts>
+		</type>
+
+		<type id="Contract">
+			<label>label.athento-nx-hrm-doctypes.Contract</label>
+			<translated>true</translated>
+			<icon>/img/file_100.png</icon>
+			<bigIcon>/img/file_100.png</bigIcon>
+			<description>label.athento-nx-hrm-doctypes.Contract.description
+			</description>
+			<category>label.athento-nx-hrm-doctypes.hrmCategory</category>
+			<default-view>view_documents</default-view>
+			<layouts mode="create">
+				<layout>heading</layout>
+				<layout>file</layout>
+				<layout>layout@formlayout-contract</layout>
+				<layout>layout@formlayout-userFileHeading</layout>
+				<layout>layout@formlayout-projectFileHeading</layout>
+			</layouts>
+			<layouts mode="edit">
+				<layout>heading</layout>
+				<layout>file</layout>
+				<layout>layout@formlayout-contract</layout>
+				<layout>layout@formlayout-userFileHeading</layout>
+				<layout>layout@formlayout-projectFileHeading</layout>
+			</layouts>
+			<layouts mode="view">
+				<layout>layout@formlayout-contract</layout>
+				<layout>layout@formlayout-userFileHeading</layout>
+				<layout>layout@formlayout-projectFileHeading</layout>
+			</layouts>
+		</type>
+
+		<type id="Leaves">
+			<label>label.athento-nx-hrm-doctypes.Leaves</label>
+			<translated>true</translated>
+			<icon>/img/file_100.png</icon>
+			<bigIcon>/img/file_100.png</bigIcon>
+			<description>label.athento-nx-hrm-doctypes.Leaves.description
+			</description>
+			<category>label.athento-nx-hrm-doctypes.hrmCategory</category>
+			<default-view>view_documents</default-view>
+			<layouts mode="create">
+				<layout>heading</layout>
+				<layout>file</layout>
+				<layout>layout@formlayout-leaves</layout>
+				<layout>layout@formlayout-userFileHeading</layout>
+				<layout>layout@formlayout-projectFileHeading</layout>
+			</layouts>
+			<layouts mode="edit">
+				<layout>heading</layout>
+				<layout>file</layout>
+				<layout>layout@formlayout-leaves</layout>
+				<layout>layout@formlayout-userFileHeading</layout>
+				<layout>layout@formlayout-projectFileHeading</layout>
+			</layouts>
+			<layouts mode="view">
+				<layout>layout@formlayout-leaves</layout>
+				<layout>layout@formlayout-userFileHeading</layout>
+				<layout>layout@formlayout-projectFileHeading</layout>
+			</layouts>
+		</type>
+
+		<type id="Payslip">
+			<label>label.athento-nx-hrm-doctypes.Payslip</label>
+			<translated>true</translated>
+			<icon>/img/file_100.png</icon>
+			<bigIcon>/img/file_100.png</bigIcon>
+			<description>label.athento-nx-hrm-doctypes.Payslip.description
+			</description>
+			<category>label.athento-nx-hrm-doctypes.hrmCategory</category>
+			<default-view>view_documents</default-view>
+			<layouts mode="create">
+				<layout>heading</layout>
+				<layout>file</layout>
+				<layout>layout@formlayout-payslip</layout>
+				<layout>layout@formlayout-userFileHeading</layout>
+				<layout>layout@formlayout-projectFileHeading</layout>
+			</layouts>
+			<layouts mode="edit">
+				<layout>heading</layout>
+				<layout>file</layout>
+				<layout>layout@formlayout-payslip</layout>
+				<layout>layout@formlayout-userFileHeading</layout>
+				<layout>layout@formlayout-projectFileHeading</layout>
+			</layouts>
+			<layouts mode="view">
+				<layout>layout@formlayout-payslip</layout>
+				<layout>layout@formlayout-userFileHeading</layout>
+				<layout>layout@formlayout-projectFileHeading</layout>
+			</layouts>
+		</type>
+
+		<type id="Vacations">
+			<label>label.athento-nx-hrm-doctypes.Vacations</label>
+			<translated>true</translated>
+			<icon>/img/file_100.png</icon>
+			<bigIcon>/img/file_100.png</bigIcon>
+			<description>label.athento-nx-hrm-doctypes.Vacations.description
+			</description>
+			<category>label.athento-nx-hrm-doctypes.hrmCategory</category>
+			<default-view>view_documents</default-view>
+			<layouts mode="create">
+				<layout>heading</layout>
+				<layout>file</layout>
+				<layout>layout@formlayout-vacations</layout>
+				<layout>layout@formlayout-userFileHeading</layout>
+				<layout>layout@formlayout-projectFileHeading</layout>
+			</layouts>
+			<layouts mode="edit">
+				<layout>heading</layout>
+				<layout>file</layout>
+				<layout>layout@formlayout-vacations</layout>
+				<layout>layout@formlayout-userFileHeading</layout>
+				<layout>layout@formlayout-projectFileHeading</layout>
+			</layouts>
+			<layouts mode="view">
+				<layout>layout@formlayout-vacations</layout>
+				<layout>layout@formlayout-userFileHeading</layout>
+				<layout>layout@formlayout-projectFileHeading</layout>
+			</layouts>
+		</type>
+
+		<type id="Folder">
+			<subtypes>
+				<type>Curriculum</type>
+				<type>Contract</type>
+				<type>Leaves</type>
+				<type>Payslip</type>
+				<type>Vacations</type>
+			</subtypes>
+		</type>
+		<type id="Workspace">
+			<subtypes>
+				<type>Curriculum</type>
+				<type>Contract</type>
+				<type>Leaves</type>
+				<type>Payslip</type>
+				<type>Vacations</type>
+			</subtypes>
+		</type>
+
+	</extension>
+
+</component>
