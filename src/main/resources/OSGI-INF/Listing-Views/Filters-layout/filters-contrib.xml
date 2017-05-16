@@ -8,6 +8,22 @@
 	<extension target="org.nuxeo.ecm.platform.actions.ActionService"
 		point="filters">
 
+		<filter id="filter@wf@Vr_Rrhh_Workflow" append="true">
+			<rule grant="false">
+				<condition>document.currentLifeCycleState != "Draft"</condition>
+			</rule>
+		</filter>
+		<filter id="filter@wf@Selection_Rrhh_Workflow" append="true">
+			<rule grant="false">
+				<condition>document.currentLifeCycleState != "Draft"</condition>
+			</rule>
+		</filter>
+		<filter id="filter@wf@Psc_Rrhh_Workflow" append="true">
+			<rule grant="false">
+				<condition>document.currentLifeCycleState != "Draft"</condition>
+			</rule>
+		</filter>
+
 	</extension>
 
 </component>
