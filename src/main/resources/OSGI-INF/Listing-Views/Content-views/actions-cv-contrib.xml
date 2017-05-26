@@ -7,14 +7,6 @@
 	<extension target="org.nuxeo.ecm.platform.actions.ActionService"
 		point="actions">
 
-		<action id="hrm_cv_search_action" enabled="true"
-			order="30" type="link" immediate="false" link=".">
-			<category>SEARCH_CONTENT_VIEWS</category>
-			<properties>
-				<property name="contentViewName">hrm_cv</property>
-			</properties>
-		</action>
-
 	</extension>
 
 </component>	

@@ -6,6 +6,120 @@
 	<extension target="org.nuxeo.ecm.core.operation.OperationServiceComponent"
 		point="chains">
 
+		<chain id="HHRR-CalculateHolidays">
+			<documentation>
+				Iterates on Anual Vacations to calculate pending holidays.
+			</documentation>
+			<operation id="Context.FetchDocument" />
+			<operation id="Context.SetVar">
+				<param type="string" name="name">anualVacationsList</param>
+				<param type="object" name="value">expr:Document["vacationsrequest:AnualVacations"]
+				</param>
+			</operation>
+			<operation id="Context.SetVar">
+				<param type="string" name="name">iterationCounter</param>
+				<param type="integer" name="value">0</param>
+			</operation>
+			<operation id="Context.RunOperationOnList">
+				<param type="string" name="id">expr:anualVacationsList.size() == 0 ? "voidchain" :
+					"HHRR-CalculateHolidaysRow"
+				</param>
+				<param type="string" name="list">anualVacationsList</param>
+				<param type="boolean" name="isolate">false</param>
+				<param type="string" name="item">item</param>
+				<param type="boolean" name="newTx">false</param>
+				<param type="boolean" name="rollbackGlobalOnError">true</param>
+			</operation>
+		</chain>
+
+		<chain id="HHRR-CalculateHolidaysRow">
+			<documentation>
+				Calculates holidays of a given row, with specified start and end date.
+			</documentation>
+			<operation id="Context.SetVar">
+				<param type="string" name="name">center</param>
+				<param type="object" name="value">expr:Document["vacationsrequest:Center"]</param>
+			</operation>
+			<operation id="Athento.BusinessDays">
+				<param type="string" name="mondaysToSaturdaysName">mondaysToSaturdays</param>
+				<param type="string" name="sundaysName">sundays</param>
+				<param type="string" name="startDate">expr:item.get("StartDate")</param>
+				<param type="string" name="endDate">expr:item.get("EndDate")</param>
+				<param type="string" name="year">expr:Document["vacationsrequest:Year"]</param>
+				<param type="string" name="region">expr:center.substring(0,1)</param>
+			</operation>
+			<operation id="Document.SetProperty">
+				<param type="string" name="xpath">expr:@{"vacationsrequest:AnualVacations/"+iterationCounter+"/TakenMondayToSaturday"}</param>
+				<param type="boolean" name="save">false</param>
+				<param type="serializable" name="value">expr:"" + mondaysToSaturdays</param>
+			</operation>
+			<operation id="Document.SetProperty">
+				<param type="string" name="xpath">expr:@{"vacationsrequest:AnualVacations/"+iterationCounter+"/TakenSundays"}</param>
+				<param type="boolean" name="save">false</param>
+				<param type="serializable" name="value">expr:"" + sundays
+				</param>
+			</operation>
+			<operation id="Document.SetProperty">
+				<param type="string" name="xpath">expr:@{"vacationsrequest:AnualVacations/"+iterationCounter+"/Pending"}</param>
+				<param type="boolean" name="save">true</param>
+				<param type="serializable" name="value">expr:"" + mondaysToSaturdays + " + " + sundays</param>
+			</operation>
+		</chain>
+
+		<chain id="wf-vr-rrhh-director-calculateValidators">
+			<documentation>Based on several properties, calculates all levels'
+				validators
+			</documentation>
+			<operation id="Context.FetchDocument" />
+			<operation id="Context.SetWorkflowVar">
+				<param type="string" name="name">wf-vr-rrhh-director-group</param>
+				<param type="object" name="value">expr:@{"group:Level19"}
+				</param>
+			</operation>
+		</chain>
+
+		<chain id="wf-psc-rrhh-calculateValidators">
+			<documentation>Based on several properties, calculates all levels'
+				validators
+			</documentation>
+			<operation id="Context.FetchDocument" />
+			<operation id="Context.SetWorkflowVar">
+				<param type="string" name="name">wf-psc-rrhh-activity-group</param>
+				<param type="object" name="value">expr:@{"group:Level20_" + Document["psc:Activity"]}</param>
+			</operation>
+			<operation id="Context.SetWorkflowVar">
+				<param type="string" name="name">wf-psc-rrhh-director-group</param>
+				<param type="object" name="value">expr:@{"group:Level19"}</param>
+			</operation>
+			<operation id="Context.SetWorkflowVar">
+				<param type="string" name="name">wf-psc-rrhh-general-director-group</param>
+				<param type="object" name="value">expr:@{"group:Level10"}</param>
+			</operation>
+		</chain>
+
+		<chain id="wf-selection-rrhh-calculateValidators">
+			<documentation>Based on several properties, calculates all levels'
+				validators
+			</documentation>
+			<operation id="Context.FetchDocument" />
+			<operation id="Context.SetWorkflowVar">
+				<param type="string" name="name">wf-selection-rrhh-activity-group</param>
+				<param type="object" name="value">expr:@{"group:Level20_" + Document["selection:Activity"]}</param>
+			</operation>
+			<operation id="Context.SetWorkflowVar">
+				<param type="string" name="name">wf-selection-rrhh-financial-group</param>
+				<param type="object" name="value">expr:@{"group:Level15"}</param>
+			</operation>
+			<operation id="Context.SetWorkflowVar">
+				<param type="string" name="name">wf-selection-rrhh-director-group</param>
+				<param type="object" name="value">expr:@{"group:Level19"}</param>
+			</operation>
+			<operation id="Context.SetWorkflowVar">
+				<param type="string" name="name">wf-selection-rrhh-general-director-group</param>
+				<param type="object" name="value">expr:@{"group:Level10"}</param>
+			</operation>
+		</chain>
+
 	</extension>
 
 </component>
