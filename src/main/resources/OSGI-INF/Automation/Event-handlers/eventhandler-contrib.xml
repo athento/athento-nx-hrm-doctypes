@@ -15,6 +15,22 @@
 			</filters>
 		</handler>
 
+		<handler chainId="Psc-assignID">
+			<event>documentCreated</event>
+			<filters>
+				<doctype>Psc</doctype>
+				<attribute>Regular Document</attribute>
+			</filters>
+		</handler>
+
+		<handler chainId="Selection-assignID">
+			<event>documentCreated</event>
+			<filters>
+				<doctype>Selection</doctype>
+				<attribute>Regular Document</attribute>
+			</filters>
+		</handler>
+
 	</extension>
 
 </component>
