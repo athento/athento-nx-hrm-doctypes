@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>athento-nx-hrm-doctypes</groupId>
 	<artifactId>athento-nx-hrm-doctypes</artifactId>
-	<version>1.3-SNAPSHOT</version>
+	<version>1.2.1</version>
 	<name>Athento NX HRM Doctypes</name>
 	<description>Athento NX HRM Doctypes</description>
 
