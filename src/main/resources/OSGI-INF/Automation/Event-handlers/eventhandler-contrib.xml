@@ -15,6 +15,22 @@
 			</filters>
 		</handler>
 
+		<handler chainId="CSP-assignID">
+			<event>documentCreated</event>
+			<filters>
+				<doctype>Psc</doctype>
+				<attribute>Regular Document</attribute>
+			</filters>
+		</handler>
+
+		<handler chainId="SEL-assignID">
+			<event>documentCreated</event>
+			<filters>
+				<doctype>Selection</doctype>
+				<attribute>Regular Document</attribute>
+			</filters>
+		</handler>
+
 	</extension>
 
 </component>
