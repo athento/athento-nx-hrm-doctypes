@@ -20,6 +20,14 @@
 				<param type="string" name="name">iterationCounter</param>
 				<param type="integer" name="value">0</param>
 			</operation>
+			<operation id="Context.SetVar">
+				<param type="string" name="name">pendingBusiness</param>
+				<param type="integer" name="value">expr:Document["vacationsrequest:AccruedMondayToSaturday"]</param>
+			</operation>
+			<operation id="Context.SetVar">
+				<param type="string" name="name">pendingSundays</param>
+				<param type="integer" name="value">expr:Document["vacationsrequest:AccruedSundays"]</param>
+			</operation>
 			<operation id="Context.RunOperationOnList">
 				<param type="string" name="id">expr:anualVacationsList.size() == 0 ? "voidchain" :
 					"HHRR-CalculateHolidaysRow"
@@ -48,6 +56,14 @@
 				<param type="string" name="year">expr:Document["vacationsrequest:Year"]</param>
 				<param type="string" name="region">expr:center.substring(0,1)</param>
 			</operation>
+			<operation id="Context.SetVar">
+				<param type="string" name="name">pendingBusiness</param>
+				<param type="integer" name="value">expr:pendingBusiness - mondaysToSaturdays</param>
+			</operation>
+			<operation id="Context.SetVar">
+				<param type="string" name="name">pendingSundays</param>
+				<param type="integer" name="value">expr:pendingSundays - sundays</param>
+			</operation>
 			<operation id="Document.SetProperty">
 				<param type="string" name="xpath">expr:@{"vacationsrequest:AnualVacations/"+iterationCounter+"/TakenMondayToSaturday"}</param>
 				<param type="boolean" name="save">false</param>
@@ -57,12 +73,16 @@
 				<param type="string" name="xpath">expr:@{"vacationsrequest:AnualVacations/"+iterationCounter+"/TakenSundays"}</param>
 				<param type="boolean" name="save">false</param>
 				<param type="serializable" name="value">expr:"" + sundays
-				</param>
+			</param>
 			</operation>
 			<operation id="Document.SetProperty">
 				<param type="string" name="xpath">expr:@{"vacationsrequest:AnualVacations/"+iterationCounter+"/Pending"}</param>
-				<param type="boolean" name="save">true</param>
-				<param type="serializable" name="value">expr:"" + mondaysToSaturdays + " + " + sundays</param>
+				<param type="boolean" name="save">false</param>
+				<param type="serializable" name="value">expr:"" + pendingBusiness + " + " + pendingSundays</param>
+			</operation>
+			<operation id="Context.SetVar">
+				<param type="string" name="name">iterationCounter</param>
+				<param type="integer" name="value">expr:iterationCounter + 1</param>
 			</operation>
 		</chain>
 
@@ -183,7 +203,7 @@
 				2 digits - Year
 				6 numbers - Sequential ID
 				Each sequential number starts every month. Example:
-				DOA-MMYY-xxxxxx
+				SEL-MMYY-xxxxxx
 				0117/000001
 			</documentation>
 			<operation id="Context.FetchDocument" />
@@ -218,6 +238,62 @@
 			<operation id="Context.SetVar">
 				<param type="string" name="name">id_var</param>
 				<param type="object" name="value">expr:@{"SEL-"+year_var+month_var+"-"+uniqueselnumberformatted_var}
+				</param>
+			</operation>
+			<operation id="Document.SetProperty">
+				<param type="string" name="xpath">dc:title</param>
+				<param type="boolean" name="save">true</param>
+				<param type="serializable" name="value">expr:id_var
+				</param>
+			</operation>
+			<operation id="Document.CheckIn">
+				<param type="string" name="version">0.0</param>
+			</operation>
+
+		</chain>
+
+		<chain id="Vr-assignID">
+			<documentation>
+				Sequential ID.
+				2 digits - Month
+				2 digits - Year
+				6 numbers - Sequential ID
+				Each sequential number starts every month. Example:
+				PV-MMYY-xxxxxx
+				0117/000001
+			</documentation>
+			<operation id="Context.FetchDocument" />
+			<!-- Year. Used for uniqueness of number id AND the composition of the
+               id -->
+			<operation id="Context.SetVar">
+				<param type="string" name="name">year_var</param>
+				<param type="object" name="value">expr:new
+					java.text.SimpleDateFormat("yy").format(Document["dc:created"].getTime())
+				</param>
+			</operation>
+			<!-- Month. Used for uniqueness of number id AND the composition of the
+                id -->
+			<operation id="Context.SetVar">
+				<param type="string" name="name">month_var</param>
+				<param type="object" name="value">expr:new
+					java.text.SimpleDateFormat("MM").format(Document["dc:created"].getTime())
+				</param>
+			</operation>
+			<!-- Number, which is formatted with 6 digits -->
+			<operation id="Context.SetVar">
+				<param type="string" name="name">uniquevrnumber_var</param>
+				<param type="object" name="value">expr:Fn.getNextId("unique-vr-key"+year_var+month_var)
+				</param>
+			</operation>
+			<operation id="Context.SetVar">
+				<param type="string" name="name">uniquevrnumberformatted_var</param>
+				<param type="object" name="value">expr:uniquevrnumber_var.format("%06d",Integer.valueOf(uniquevrnumber_var))
+				</param>
+			</operation>
+			<!-- Final variable id_var with the ID composition. Stored in both title -->
+			<operation id="Context.SetVar">
+				<param type="string" name="name">id_var</param>
+				<param type="object" name="value">expr:@{"PV-"+year_var+month_var+"-"+uniquevrnumberformatted_var}
 				</param>
 			</operation>
 			<operation id="Document.SetProperty">
