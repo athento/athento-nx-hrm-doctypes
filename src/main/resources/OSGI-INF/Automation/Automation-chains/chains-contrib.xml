@@ -20,6 +20,14 @@
 				<param type="string" name="name">iterationCounter</param>
 				<param type="integer" name="value">0</param>
 			</operation>
+			<operation id="Context.SetVar">
+				<param type="string" name="name">pendingBusiness</param>
+				<param type="integer" name="value">expr:Document["vacationsrequest:AccruedMondayToSaturday"]</param>
+			</operation>
+			<operation id="Context.SetVar">
+				<param type="string" name="name">pendingSundays</param>
+				<param type="integer" name="value">expr:Document["vacationsrequest:AccruedSundays"]</param>
+			</operation>
 			<operation id="Context.RunOperationOnList">
 				<param type="string" name="id">expr:anualVacationsList.size() == 0 ? "voidchain" :
 					"HHRR-CalculateHolidaysRow"
@@ -48,6 +56,14 @@
 				<param type="string" name="year">expr:Document["vacationsrequest:Year"]</param>
 				<param type="string" name="region">expr:center.substring(0,1)</param>
 			</operation>
+			<operation id="Context.SetVar">
+				<param type="string" name="name">pendingBusiness</param>
+				<param type="integer" name="value">expr:pendingBusiness - mondaysToSaturdays</param>
+			</operation>
+			<operation id="Context.SetVar">
+				<param type="string" name="name">pendingSundays</param>
+				<param type="integer" name="value">expr:pendingSundays - sundays</param>
+			</operation>
 			<operation id="Document.SetProperty">
 				<param type="string" name="xpath">expr:@{"vacationsrequest:AnualVacations/"+iterationCounter+"/TakenMondayToSaturday"}</param>
 				<param type="boolean" name="save">false</param>
@@ -57,12 +73,16 @@
 				<param type="string" name="xpath">expr:@{"vacationsrequest:AnualVacations/"+iterationCounter+"/TakenSundays"}</param>
 				<param type="boolean" name="save">false</param>
 				<param type="serializable" name="value">expr:"" + sundays
-				</param>
+			</param>
 			</operation>
 			<operation id="Document.SetProperty">
 				<param type="string" name="xpath">expr:@{"vacationsrequest:AnualVacations/"+iterationCounter+"/Pending"}</param>
-				<param type="boolean" name="save">true</param>
-				<param type="serializable" name="value">expr:"" + mondaysToSaturdays + " + " + sundays</param>
+				<param type="boolean" name="save">false</param>
+				<param type="serializable" name="value">expr:"" + pendingBusiness + " + " + pendingSundays</param>
+			</operation>
+			<operation id="Context.SetVar">
+				<param type="string" name="name">iterationCounter</param>
+				<param type="integer" name="value">expr:iterationCounter + 1</param>
 			</operation>
 		</chain>
 

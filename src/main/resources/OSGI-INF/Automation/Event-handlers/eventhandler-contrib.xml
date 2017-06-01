@@ -8,6 +8,30 @@
 		point="event-handlers">
 
 		<handler chainId="HHRR-CalculateHolidays">
+			<event>beforeDocumentModification</event>
+			<filters>
+				<doctype>VacationsRequest</doctype>
+				<attribute>Regular Document</attribute>
+			</filters>
+		</handler>
+
+		<handler chainId="Psc-assignID">
+			<event>documentCreated</event>
+			<filters>
+				<doctype>Psc</doctype>
+				<attribute>Regular Document</attribute>
+			</filters>
+		</handler>
+
+		<handler chainId="Selection-assignID">
+			<event>documentCreated</event>
+			<filters>
+				<doctype>Selection</doctype>
+				<attribute>Regular Document</attribute>
+			</filters>
+		</handler>
+
+		<handler chainId="Vr-assignID">
 			<event>documentCreated</event>
 			<filters>
 				<doctype>VacationsRequest</doctype>
