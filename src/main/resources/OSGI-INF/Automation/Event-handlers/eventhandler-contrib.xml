@@ -8,7 +8,7 @@
 		point="event-handlers">
 
 		<handler chainId="HHRR-CalculateHolidays">
-			<event>documentCreated</event>
+			<event>beforeDocumentModification</event>
 			<filters>
 				<doctype>VacationsRequest</doctype>
 				<attribute>Regular Document</attribute>
@@ -27,6 +27,31 @@
 			<event>documentCreated</event>
 			<filters>
 				<doctype>Selection</doctype>
+				<attribute>Regular Document</attribute>
+			</filters>
+		</handler>
+
+		<handler chainId="Vr-assignID">
+			<event>documentCreated</event>
+			<filters>
+				<doctype>VacationsRequest</doctype>
+				<attribute>Regular Document</attribute>
+			</filters>
+		</handler>
+
+		<handler chainId="UserFileRRHH-assignID">
+			<event>documentCreated</event>
+			<filters>
+				<doctype>UserFileRRHH</doctype>
+				<attribute>Regular Document</attribute>
+			</filters>
+		</handler>
+
+		<handler chainId="HHRR-CalculateAccruedDays">
+			<event>beforeDocumentModification</event>
+			<event>aboutToCreate</event>
+			<filters>
+				<doctype>UserFileRRHH</doctype>
 				<attribute>Regular Document</attribute>
 			</filters>
 		</handler>
