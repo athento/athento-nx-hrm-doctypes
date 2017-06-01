@@ -93,7 +93,7 @@
 			<operation id="Context.FetchDocument" />
 			<operation id="Context.SetWorkflowVar">
 				<param type="string" name="name">wf-vr-rrhh-director-group</param>
-				<param type="object" name="value">expr:@{"group:Level19"}
+				<param type="object" name="value">expr:@{"user:" + Document["vacationsrequest:Manager"]}
 				</param>
 			</operation>
 		</chain>
@@ -306,6 +306,19 @@
 				<param type="string" name="version">0.0</param>
 			</operation>
 
+		</chain>
+
+		<chain id="updateManagerRRHH">
+			<operation id="Context.FetchDocument" />
+			<operation id="Athento.GetUsersByEmail">
+				<param type="string" name="userEmail">expr:Document["userfilerrhh:Email"]</param>
+				<param type="string" name="output">usersByEmail</param>
+			</operation>
+			<operation id="Document.SetProperty">
+				<param type="string" name="xpath">userfilerrhh:Manager</param>
+				<param type="boolean" name="save">true</param>
+				<param type="serializable" name="value">expr: usersByEmail.isEmpty()?'':usersByEmail.get(0).getProperty("user:username")</param>
+			</operation>
 		</chain>
 
 	</extension>

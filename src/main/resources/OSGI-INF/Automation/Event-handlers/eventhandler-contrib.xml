@@ -39,6 +39,14 @@
 			</filters>
 		</handler>
 
+		<handler chainId="updateManagerRRHH">
+			<event>beforeDocumentModification</event>
+			<filters>
+				<doctype>UserFileRRHH</doctype>
+				<attribute>Regular Document</attribute>
+			</filters>
+		</handler>
+
 	</extension>
 
 </component>
