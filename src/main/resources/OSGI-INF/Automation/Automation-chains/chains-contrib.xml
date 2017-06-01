@@ -109,7 +109,7 @@
 				<param type="string" name="xpath">expr:@{"vacationsrequest:AnualVacations/"+iterationCounter+"/TakenSundays"}</param>
 				<param type="boolean" name="save">false</param>
 				<param type="serializable" name="value">expr:"" + sundays
-				</param>
+			</param>
 			</operation>
 			<operation id="Document.SetProperty">
 				<param type="string" name="xpath">expr:@{"vacationsrequest:AnualVacations/"+iterationCounter+"/Pending"}</param>
@@ -343,6 +343,7 @@
 			</operation>
 
 		</chain>
+
 
 		<chain id="UserFileRRHH-assignID">
 			<documentation>
