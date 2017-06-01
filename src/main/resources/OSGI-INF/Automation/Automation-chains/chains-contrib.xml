@@ -6,6 +6,42 @@
 	<extension target="org.nuxeo.ecm.core.operation.OperationServiceComponent"
 		point="chains">
 
+		<chain id="HHRR-CalculateAccruedDays">
+			<documentation>
+				Calculates accrued days.
+			</documentation>
+			<operation id="Context.FetchDocument" />
+			<operation id="Context.SetVar">
+				<param type="string" name="name">DaysPreviousYears</param>
+				<param type="integer" name="value">expr:Document["userfilerrhh:DaysPreviousYears"] == empty ? 0 :
+					Document["userfilerrhh:DaysPreviousYears"]</param>
+			</operation>
+			<operation id="Context.SetVar">
+				<param type="string" name="name">DaysSeniority</param>
+				<param type="integer" name="value">expr:Document["userfilerrhh:DaysSeniority"] == empty ? 0 :
+					Document["userfilerrhh:DaysSeniority"]</param>
+			</operation>
+			<operation id="Context.SetVar">
+				<param type="string" name="name">DaysAdjustments</param>
+				<param type="integer" name="value">expr:Document["userfilerrhh:DaysAdjustments"] == empty ? 0 :
+					Document["userfilerrhh:DaysAdjustments"]</param>
+			</operation>
+			<operation id="Context.SetVar">
+				<param type="string" name="name">AccruedMondayToSaturdaySpecificYear</param>
+				<param type="integer" name="value">expr:Document["userfilerrhh:AccruedMondayToSaturdaySpecificYear"] == empty ? 0 :
+					Document["userfilerrhh:AccruedMondayToSaturdaySpecificYear"]</param>
+			</operation>
+			<operation id="Context.SetVar">
+				<param type="string" name="name">AccruedMondayToSaturday</param>
+				<param type="integer" name="value">expr:DaysPreviousYears + DaysSeniority + DaysAdjustments + AccruedMondayToSaturdaySpecificYear</param>
+			</operation>
+			<operation id="Document.SetProperty">
+				<param type="string" name="xpath">userfilerrhh:AccruedMondayToSaturday</param>
+				<param type="boolean" name="save">false</param>
+				<param type="serializable" name="value">expr:AccruedMondayToSaturday</param>
+			</operation>
+		</chain>
+
 		<chain id="HHRR-CalculateHolidays">
 			<documentation>
 				Iterates on Anual Vacations to calculate pending holidays.
@@ -140,71 +176,15 @@
 			</operation>
 		</chain>
 
-		<chain id="Psc-assignID">
+		<chain id="SEL-assignID">
 			<documentation>
 				Sequential ID.
-				2 digits - Month
 				2 digits - Year
-				6 numbers - Sequential ID
-				Each sequential number starts every month. Example:
-				CSP-MMYY-xxxxxx
-				0117/000001
-			</documentation>
-			<operation id="Context.FetchDocument" />
-			<!-- Year. Used for uniqueness of number id AND the composition of the
-               id -->
-			<operation id="Context.SetVar">
-				<param type="string" name="name">year_var</param>
-				<param type="object" name="value">expr:new
-					java.text.SimpleDateFormat("yy").format(Document["dc:created"].getTime())
-				</param>
-			</operation>
-			<!-- Month. Used for uniqueness of number id AND the composition of the
-                id -->
-			<operation id="Context.SetVar">
-				<param type="string" name="name">month_var</param>
-				<param type="object" name="value">expr:new
-					java.text.SimpleDateFormat("MM").format(Document["dc:created"].getTime())
-				</param>
-			</operation>
-			<!-- Number, which is formatted with 6 digits -->
-			<operation id="Context.SetVar">
-				<param type="string" name="name">uniquepscnumber_var</param>
-				<param type="object" name="value">expr:Fn.getNextId("unique-psc-key"+year_var+month_var)
-				</param>
-			</operation>
-			<operation id="Context.SetVar">
-				<param type="string" name="name">uniquepscnumberformatted_var</param>
-				<param type="object" name="value">expr:uniquepscnumber_var.format("%06d",Integer.valueOf(uniquepscnumber_var))
-				</param>
-			</operation>
-			<!-- Final variable id_var with the ID composition. Stored in both title -->
-			<operation id="Context.SetVar">
-				<param type="string" name="name">id_var</param>
-				<param type="object" name="value">expr:@{"CSP-"+year_var+month_var+"-"+uniquepscnumberformatted_var}
-				</param>
-			</operation>
-			<operation id="Document.SetProperty">
-				<param type="string" name="xpath">dc:title</param>
-				<param type="boolean" name="save">true</param>
-				<param type="serializable" name="value">expr:id_var
-				</param>
-			</operation>
-			<operation id="Document.CheckIn">
-				<param type="string" name="version">0.0</param>
-			</operation>
-
-		</chain>
-
-		<chain id="Selection-assignID">
-			<documentation>
-				Sequential ID.
 				2 digits - Month
-				2 digits - Year
 				6 numbers - Sequential ID
-				Each sequential number starts every month. Example:
-				SEL-MMYY-xxxxxx
-				0117/000001
+				Each sequential number starts every year. Example:
+				SEL-CC/MMYY/xxxxxx
+				SEL-0117-000001
 			</documentation>
 			<operation id="Context.FetchDocument" />
 			<!-- Year. Used for uniqueness of number id AND the composition of the
@@ -226,7 +206,7 @@
 			<!-- Number, which is formatted with 6 digits -->
 			<operation id="Context.SetVar">
 				<param type="string" name="name">uniqueselnumber_var</param>
-				<param type="object" name="value">expr:Fn.getNextId("unique-sel-key"+year_var+month_var)
+				<param type="object" name="value">expr:Fn.getNextId("unique-sel-key"+year_var)
 				</param>
 			</operation>
 			<operation id="Context.SetVar">
@@ -252,13 +232,69 @@
 
 		</chain>
 
+		<chain id="CSP-assignID">
+			<documentation>
+				Sequential ID.
+				2 digits - Year
+				2 digits - Month
+				6 numbers - Sequential ID
+				Each sequential number starts every year. Example:
+				CSP-CC/MMYY/xxxxxx
+				CSP-0117-000001
+			</documentation>
+			<operation id="Context.FetchDocument" />
+			<!-- Year. Used for uniqueness of number id AND the composition of the
+               id -->
+			<operation id="Context.SetVar">
+				<param type="string" name="name">year_var</param>
+				<param type="object" name="value">expr:new
+					java.text.SimpleDateFormat("yy").format(Document["dc:created"].getTime())
+				</param>
+			</operation>
+			<!-- Month. Used for uniqueness of number id AND the composition of the
+                id -->
+			<operation id="Context.SetVar">
+				<param type="string" name="name">month_var</param>
+				<param type="object" name="value">expr:new
+					java.text.SimpleDateFormat("MM").format(Document["dc:created"].getTime())
+				</param>
+			</operation>
+			<!-- Number, which is formatted with 6 digits -->
+			<operation id="Context.SetVar">
+				<param type="string" name="name">uniquecspnumber_var</param>
+				<param type="object" name="value">expr:Fn.getNextId("unique-csp-key"+year_var)
+				</param>
+			</operation>
+			<operation id="Context.SetVar">
+				<param type="string" name="name">uniquecspnumberformatted_var</param>
+				<param type="object" name="value">expr:uniquecspnumber_var.format("%06d",Integer.valueOf(uniquecspnumber_var))
+				</param>
+			</operation>
+			<!-- Final variable id_var with the ID composition. Stored in both title -->
+			<operation id="Context.SetVar">
+				<param type="string" name="name">id_var</param>
+				<param type="object" name="value">expr:@{"CSP-"+year_var+month_var+"-"+uniquecspnumberformatted_var}
+				</param>
+			</operation>
+			<operation id="Document.SetProperty">
+				<param type="string" name="xpath">dc:title</param>
+				<param type="boolean" name="save">true</param>
+				<param type="serializable" name="value">expr:id_var
+				</param>
+			</operation>
+			<operation id="Document.CheckIn">
+				<param type="string" name="version">0.0</param>
+			</operation>
+
+		</chain>
+
 		<chain id="Vr-assignID">
 			<documentation>
 				Sequential ID.
 				2 digits - Month
 				2 digits - Year
 				6 numbers - Sequential ID
-				Each sequential number starts every month. Example:
+				Each sequential number starts every year. Example:
 				PV-MMYY-xxxxxx
 				0117/000001
 			</documentation>
@@ -282,7 +318,7 @@
 			<!-- Number, which is formatted with 6 digits -->
 			<operation id="Context.SetVar">
 				<param type="string" name="name">uniquevrnumber_var</param>
-				<param type="object" name="value">expr:Fn.getNextId("unique-vr-key"+year_var+month_var)
+				<param type="object" name="value">expr:Fn.getNextId("unique-vr-key"+year_var)
 				</param>
 			</operation>
 			<operation id="Context.SetVar">
@@ -300,6 +336,29 @@
 				<param type="string" name="xpath">dc:title</param>
 				<param type="boolean" name="save">true</param>
 				<param type="serializable" name="value">expr:id_var
+				</param>
+			</operation>
+			<operation id="Document.CheckIn">
+				<param type="string" name="version">0.0</param>
+			</operation>
+
+		</chain>
+
+
+		<chain id="UserFileRRHH-assignID">
+			<documentation>
+				Specific metadata for the title
+			</documentation>
+			<operation id="Context.FetchDocument" />
+			<operation id="Context.SetVar">
+				<param type="string" name="name">RegistrationNumber_var</param>
+				<param type="object" name="value">expr:Document["userfilerrhh:RegistrationNumber"]
+				</param>
+			</operation>
+			<operation id="Document.SetProperty">
+				<param type="string" name="xpath">dc:title</param>
+				<param type="boolean" name="save">true</param>
+				<param type="serializable" name="value">expr:RegistrationNumber_var
 				</param>
 			</operation>
 			<operation id="Document.CheckIn">

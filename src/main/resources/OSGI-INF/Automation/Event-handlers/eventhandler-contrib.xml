@@ -15,7 +15,7 @@
 			</filters>
 		</handler>
 
-		<handler chainId="Psc-assignID">
+		<handler chainId="CSP-assignID">
 			<event>documentCreated</event>
 			<filters>
 				<doctype>Psc</doctype>
@@ -23,7 +23,7 @@
 			</filters>
 		</handler>
 
-		<handler chainId="Selection-assignID">
+		<handler chainId="SEL-assignID">
 			<event>documentCreated</event>
 			<filters>
 				<doctype>Selection</doctype>
@@ -35,6 +35,23 @@
 			<event>documentCreated</event>
 			<filters>
 				<doctype>VacationsRequest</doctype>
+				<attribute>Regular Document</attribute>
+			</filters>
+		</handler>
+
+		<handler chainId="UserFileRRHH-assignID">
+			<event>documentCreated</event>
+			<filters>
+				<doctype>UserFileRRHH</doctype>
+				<attribute>Regular Document</attribute>
+			</filters>
+		</handler>
+
+		<handler chainId="HHRR-CalculateAccruedDays">
+			<event>beforeDocumentModification</event>
+			<event>aboutToCreate</event>
+			<filters>
+				<doctype>UserFileRRHH</doctype>
 				<attribute>Regular Document</attribute>
 			</filters>
 		</handler>
