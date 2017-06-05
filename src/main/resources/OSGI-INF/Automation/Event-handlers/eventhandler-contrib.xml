@@ -57,9 +57,25 @@
 		</handler>
 
 		<handler chainId="updateManagerRRHH">
-			<event>beforeDocumentModification</event>
+			<event>aboutToCreate</event>
 			<filters>
 				<doctype>UserFileRRHH</doctype>
+				<attribute>Regular Document</attribute>
+			</filters>
+		</handler>
+
+		<handler chainId="UserFileRRHH.autoSubscribe">
+			<event>documentCreated</event>
+			<filters>
+				<doctype>UserFileRRHH</doctype>
+				<attribute>Regular Document</attribute>
+			</filters>
+		</handler>
+
+		<handler chainId="VacationsRequest.autoSubscribe">
+			<event>documentCreated</event>
+			<filters>
+				<doctype>VacationsRequest</doctype>
 				<attribute>Regular Document</attribute>
 			</filters>
 		</handler>

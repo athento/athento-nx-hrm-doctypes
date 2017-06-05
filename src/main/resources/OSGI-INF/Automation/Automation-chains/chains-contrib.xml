@@ -375,8 +375,22 @@
 			</operation>
 			<operation id="Document.SetProperty">
 				<param type="string" name="xpath">userfilerrhh:Manager</param>
-				<param type="boolean" name="save">true</param>
-				<param type="serializable" name="value">expr: usersByEmail.isEmpty()?'':usersByEmail.get(0).getProperty("user:username")</param>
+				<param type="boolean" name="save">false</param>
+				<param type="serializable" name="value">expr: usersByEmail.isEmpty()?'':usersByEmail.get(0).getPropertyValue("user:username")</param>
+			</operation>
+		</chain>
+
+		<chain id="UserFileRRHH.autoSubscribe">
+			<operation id="Context.FetchDocument" />
+			<operation id="Athento.SubscribeUser">
+				<param type="string" name="username">expr:Document["userfilerrhh:Manager"] == empty ? 'dummy' : Document["userfilerrhh:Manager"]</param>
+			</operation>
+		</chain>
+
+		<chain id="VacationsRequest.autoSubscribe">
+			<operation id="Context.FetchDocument" />
+			<operation id="Athento.SubscribeUser">
+				<param type="string" name="username">expr:Document["vacationsrequest:Manager"] == empty ? 'dummy' : Document["vacationsrequest:Manager"]</param>
 			</operation>
 		</chain>
 
