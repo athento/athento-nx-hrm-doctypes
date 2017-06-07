@@ -90,7 +90,7 @@
 				<param type="string" name="startDate">expr:item.get("StartDate")</param>
 				<param type="string" name="endDate">expr:item.get("EndDate")</param>
 				<param type="string" name="year">expr:Document["vacationsrequest:Year"]</param>
-				<param type="string" name="region">expr:center.substring(0,1)</param>
+				<param type="string" name="center">expr:Document["vacationsrequest:Center"]</param>
 			</operation>
 			<operation id="Context.SetVar">
 				<param type="string" name="name">pendingBusiness</param>
