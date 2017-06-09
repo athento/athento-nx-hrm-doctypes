@@ -366,7 +366,49 @@
 
 		</chain>
 
+		<chain id="UserFileRRHH-updateFields">
+			<documentation>
+				Updates fields according to specified user
+			</documentation>
+			<operation id="Context.FetchDocument" />
+			<operation id="Athento.GetUsersByFilter">
+				<param type="string" name="filtername">employeeNumber</param>
+				<param type="string" name="filtervalue">expr:Document["userfilerrhh:RegistrationNumber"]</param>
+				<param type="string" name="output">users</param>
+			</operation>
+			<operation id="Document.SetProperty">
+				<param type="string" name="xpath">userfilerrhh:Name</param>
+				<param type="boolean" name="save">false</param>
+				<param type="serializable" name="value">expr: users.isEmpty()?'':users.get(0).getPropertyValue("user:firstName")</param>
+			</operation>
+			<operation id="Document.SetProperty">
+				<param type="string" name="xpath">userfilerrhh:Surname</param>
+				<param type="boolean" name="save">false</param>
+				<param type="serializable" name="value">expr: users.isEmpty()?'':users.get(0).getPropertyValue("user:lastName")</param>
+			</operation>
+			<operation id="Document.SetProperty">
+				<param type="string" name="xpath">userfilerrhh:Center</param>
+				<param type="boolean" name="save">false</param>
+				<param type="serializable" name="value">expr: users.isEmpty()?'':users.get(0).getPropertyValue("user:center")</param>
+			</operation>
+			<operation id="Document.SetProperty">
+				<param type="string" name="xpath">userfilerrhh:Department</param>
+				<param type="boolean" name="save">false</param>
+				<param type="serializable" name="value">expr: users.isEmpty()?'':users.get(0).getPropertyValue("user:department")</param>
+			</operation>
+			<operation id="Document.SetProperty">
+				<param type="string" name="xpath">userfilerrhh:Manager</param>
+				<param type="boolean" name="save">false</param>
+				<param type="serializable" name="value">expr: users.isEmpty()?'':users.get(0).getPropertyValue("user:manager")</param>
+			</operation>
+			<operation id="Document.SetProperty">
+				<param type="string" name="xpath">userfilerrhh:Email</param>
+				<param type="boolean" name="save">false</param>
+				<param type="serializable" name="value">expr: users.isEmpty()?'':users.get(0).getPropertyValue("user:manageremail")</param>
+			</operation>
+		</chain>
 
+<!--
 		<chain id="updateManagerRRHH">
 			<operation id="Context.FetchDocument" />
 			<operation id="Athento.GetUsersByEmail">
@@ -379,7 +421,7 @@
 				<param type="serializable" name="value">expr: usersByEmail.isEmpty()?'':usersByEmail.get(0).getPropertyValue("user:username")</param>
 			</operation>
 		</chain>
-
+-->
 		<chain id="UserFileRRHH.autoSubscribe">
 			<operation id="Context.FetchDocument" />
 			<operation id="Athento.SubscribeUser">
