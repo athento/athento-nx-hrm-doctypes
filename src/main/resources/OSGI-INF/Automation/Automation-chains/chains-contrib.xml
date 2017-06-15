@@ -493,6 +493,9 @@
 		<chain id="CreateVacactionsRequest.AutopopulateSelected">
 			<documentation>
 			</documentation>
+			<operation id="Document.Fetch">
+				<param type="document" name="value">expr:candidates.get(0)</param>
+			</operation>
 			<operation id="Context.SetVar">
 				<param type="string" name="name">vacationsrequest_Center</param>
 				<param type="object" name="value">expr:Document["vacationsrequest:Center"]
@@ -568,7 +571,6 @@
 				<param type="object" name="value">expr:Document["vacationsrequest:AnualVacations"]
 				</param>
 			</operation>
-
 			<operation id="Document.Fetch">
 				<param type="document" name="value">expr:VRCreation</param>
 			</operation>
@@ -656,10 +658,18 @@
 				<param type="serializable" name="value">expr:vacationsrequest_Surname == empty ? empty : vacationsrequest_Surname
 				</param>
 			</operation>
-			<operation id="Document.SetProperty">
+			<operation id="Context.SetVar">
+				<param type="string" name="name">vacationsrequest_AnualVacations_size</param>
+				<param type="object" name="value">expr:vacationsrequest_AnualVacations.size()
+				</param>
+			</operation>
+			<operation id="Document.RemoveProperty">
 				<param type="string" name="xpath">vacationsrequest:AnualVacations</param>
 				<param type="boolean" name="save">false</param>
-				<param type="serializable" name="value">expr:vacationsrequest_AnualVacations == empty ? empty : vacationsrequest_AnualVacations
+			</operation>
+			<operation id="Context.RunScript">
+				<param type="string" name="script">
+					Document.setPropertyValue("vacationsrequest:AnualVacations", vacationsrequest_AnualVacations);vacationsrequest_Surname;
 				</param>
 			</operation>
 		</chain>
