@@ -7,6 +7,15 @@
 	<extension target="org.nuxeo.ecm.core.operation.OperationServiceComponent"
 		point="event-handlers">
 
+		<handler chainId="PopulateUserWorkspaceDefault">
+			<event>documentCreated</event>
+			<filters>
+				<doctype>Workspace</doctype>
+				<attribute>Regular Document</attribute>
+				<pathStartsWith>/default-domain/UserWorkspaces/</pathStartsWith>
+			</filters>
+		</handler>
+
 		<handler chainId="HHRR-CalculateHolidays">
 			<event>beforeDocumentModification</event>
 			<filters>
