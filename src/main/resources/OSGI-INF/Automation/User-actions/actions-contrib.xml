@@ -6,6 +6,15 @@
 	<extension target="org.nuxeo.ecm.platform.actions.ActionService"
 		point="actions">
 
+		<action id="CreateVacationsRequest"
+				label="Solicitud de Vacaciones" enabled="true"
+				order="0" type="link" immediate="true"
+				link="#{operationActionBean.doOperation('CreateVacationsRequest')}">
+			<category>USER_MENU_ACTIONS</category>
+			<filter id="filter@CreateVacationsRequest">
+			</filter>
+		</action>
+
 	</extension>
 
 </component>

@@ -80,6 +80,16 @@
 			</filters>
 		</handler>
 
+		<handler chainId="CreateVacactionsRequest.Autopopulate">
+			<documentation>
+			</documentation>
+			<event>emptyDocumentModelCreated</event>
+			<filters>
+				<doctype>VacationsRequest</doctype>
+				<attribute>Regular Document</attribute>
+			</filters>
+		</handler>
+
 	</extension>
 
 </component>
