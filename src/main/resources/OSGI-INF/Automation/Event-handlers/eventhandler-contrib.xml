@@ -65,8 +65,8 @@
 			</filters>
 		</handler>
 
-		<handler chainId="updateManagerRRHH">
-			<event>aboutToCreate</event>
+		<handler chainId="UserFileRRHH-updateFields">
+			<event>beforeDocumentModification</event>
 			<filters>
 				<doctype>UserFileRRHH</doctype>
 				<attribute>Regular Document</attribute>
