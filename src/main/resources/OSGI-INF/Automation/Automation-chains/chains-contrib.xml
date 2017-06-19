@@ -448,8 +448,26 @@
 			<documentation>
 			</documentation>
 			<operation id="UserWorkspace.Get" />
+			<operation id="Context.SetInputAsVar">
+				<param type="string" name="name">userws</param>
+			</operation>
+			<operation id="Document.Fetch">
+				<param type="document" name="value">expr:@{userws.path+"/UserRRG/Recursos Humanos/Solicitud de Vacaciones"}</param>
+			</operation>
+			<operation id="Seam.NavigateTo" />
 			<operation id="Seam.CreateDocumentForm">
 				<param type="string" name="type">VacationsRequest</param>
+			</operation>
+		</chain>
+
+		<chain id="ApproveVacationsRequest">
+			<documentation>
+			</documentation>
+			<operation id="Context.FetchDocument" />
+			<operation id="Context.StartWorkflow">
+				<param name="id" type="string">
+					Vr_Rrhh_Workflow
+				</param>
 			</operation>
 		</chain>
 

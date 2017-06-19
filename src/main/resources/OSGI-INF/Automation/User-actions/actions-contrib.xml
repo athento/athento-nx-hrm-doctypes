@@ -15,6 +15,22 @@
 			</filter>
 		</action>
 
+		<action id="ApproveVacationsRequest"
+				label="Solicitud de Aprobación de las Vacaciones" enabled="true"
+				order="0" type="link" immediate="true" icon="/icons/button_solicitar-aprobacion.png"
+				link="#{operationActionBean.doOperation('ApproveVacationsRequest')}">
+			<category>DOCUMENT_HEADER_ACTIONS_LIST</category>
+			<filter id="filter@ApproveVacationsRequest">
+				<rule grant="true">
+					<type>VacationsRequest</type>
+				</rule>
+				<rule grant="false">
+					<condition>document.currentLifeCycleState != "Draft"
+					</condition>
+				</rule>
+			</filter>
+		</action>
+
 	</extension>
 
 </component>
