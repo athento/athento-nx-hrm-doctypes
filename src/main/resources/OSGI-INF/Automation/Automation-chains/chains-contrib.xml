@@ -6,6 +6,42 @@
 	<extension target="org.nuxeo.ecm.core.operation.OperationServiceComponent"
 		point="chains">
 
+		<chain id="PopulateUserWorkspaceDefault">
+			<documentation>
+				Copies default workspace template for new user.
+			</documentation>
+			<operation id="Context.FetchDocument" />
+			<operation id="Context.SetVar">
+				<param type="string" name="name">parentUserWS</param>
+				<param type="object" name="value">expr:Document.parent</param>
+			</operation>
+			<operation id="Context.SetVar">
+				<param type="string" name="name">parentUserWSName</param>
+				<param type="object" name="value">expr:parentUserWS.name</param>
+			</operation>
+			<operation id="Context.RunOperation">
+				<param type="string" name="id">expr:parentUserWSName == 'UserWorkspaces' ?'CopyRRGWorkspace':'voidChain'</param>
+			</operation>
+
+		</chain>
+
+		<chain id="CopyRRGWorkspace">
+			<documentation>
+				Copies RRG workspace template
+			</documentation>
+			<operation id="Context.FetchDocument" />
+			<operation id="Context.SetVar">
+				<param type="string" name="name">userWSpath</param>
+				<param type="string" name="value">expr:Document.path</param>
+			</operation>
+			<operation id="Document.Fetch">
+				<param type="document" name="value">/default-domain/templates/UserRRG</param>
+			</operation>
+			<operation id="Document.Copy">
+				<param type="document" name="target">expr:userWSpath</param>
+			</operation>
+		</chain>
+
 		<chain id="HHRR-CalculateAccruedDays">
 			<documentation>
 				Calculates accrued days.
@@ -408,20 +444,270 @@
 			</operation>
 		</chain>
 
-<!--
-		<chain id="updateManagerRRHH">
-			<operation id="Context.FetchDocument" />
-			<operation id="Athento.GetUsersByEmail">
-				<param type="string" name="userEmail">expr:Document["userfilerrhh:Email"]</param>
-				<param type="string" name="output">usersByEmail</param>
+		<chain id="CreateVacationsRequest">
+			<documentation>
+			</documentation>
+			<operation id="UserWorkspace.Get" />
+			<operation id="Context.SetInputAsVar">
+				<param type="string" name="name">userws</param>
 			</operation>
-			<operation id="Document.SetProperty">
-				<param type="string" name="xpath">userfilerrhh:Manager</param>
-				<param type="boolean" name="save">false</param>
-				<param type="serializable" name="value">expr: usersByEmail.isEmpty()?'':usersByEmail.get(0).getPropertyValue("user:username")</param>
+			<operation id="Document.Fetch">
+				<param type="document" name="value">expr:@{userws.path+"/UserRRG/Recursos Humanos/Solicitud de Vacaciones"}</param>
+			</operation>
+			<operation id="Seam.NavigateTo" />
+			<operation id="Seam.CreateDocumentForm">
+				<param type="string" name="type">VacationsRequest</param>
 			</operation>
 		</chain>
--->
+
+		<chain id="ApproveVacationsRequest">
+			<documentation>
+			</documentation>
+			<operation id="Context.FetchDocument" />
+			<operation id="Context.StartWorkflow">
+				<param name="id" type="string">
+					Vr_Rrhh_Workflow
+				</param>
+			</operation>
+		</chain>
+
+		<chain id="CreateVacactionsRequest.Autopopulate">
+			<documentation>
+			</documentation>
+			<operation id="Context.FetchDocument" />
+			<operation id="Context.SetInputAsVar">
+				<param type="string" name="name">VRCreation</param>
+			</operation>
+			<operation id="Context.SetVar">
+				<param type="string" name="name">user</param>
+				<param type="object" name="value">expr:@{currentUser.name}
+				</param>
+			</operation>
+			<operation id="Document.Query">
+				<param type="string" name="query">expr:SELECT * FROM VacationsRequest WHERE
+					dc:creator = '@{user}' AND
+					ecm:isCheckedInVersion = 0 AND
+					ecm:currentLifeCycleState
+					= 'Validated'
+				</param>
+				<param type="string" name="language">NXQL</param>
+				<param type="string" name="sortBy">dc:created</param>
+				<param type="string" name="sortOrder">DES</param>
+			</operation>
+			<operation id="Context.SetInputAsVar">
+				<param type="string" name="name">candidates</param>
+			</operation>
+			<operation id="Context.SetVar">
+				<param type="string" name="name">len</param>
+				<param type="object" name="value">expr:candidates.size()</param>
+			</operation>
+			<operation id="Context.RunOperation">
+				<param type="string" name="id">expr:len == 0 ? "voidchain" :
+					"CreateVacactionsRequest.AutopopulateSelected"</param>
+				<param type="boolean" name="isolate">false</param>
+			</operation>
+		</chain>
+
+		<chain id="CreateVacactionsRequest.AutopopulateSelected">
+			<documentation>
+			</documentation>
+			<operation id="Document.Fetch">
+				<param type="document" name="value">expr:candidates.get(0)</param>
+			</operation>
+			<operation id="Context.SetVar">
+				<param type="string" name="name">vacationsrequest_Center</param>
+				<param type="object" name="value">expr:Document["vacationsrequest:Center"]
+				</param>
+			</operation>
+			<operation id="Context.SetVar">
+				<param type="string" name="name">vacationsrequest_Seniority</param>
+				<param type="object" name="value">expr:Document["vacationsrequest:Seniority"]
+				</param>
+			</operation>
+			<operation id="Context.SetVar">
+				<param type="string" name="name">vacationsrequest_AccruedMondayToSaturday</param>
+				<param type="object" name="value">expr:Document["vacationsrequest:AccruedMondayToSaturday"]
+				</param>
+			</operation>
+			<operation id="Context.SetVar">
+				<param type="string" name="name">vacationsrequest_RegistrationNumber</param>
+				<param type="object" name="value">expr:Document["vacationsrequest:RegistrationNumber"]
+				</param>
+			</operation>
+			<operation id="Context.SetVar">
+				<param type="string" name="name">vacationsrequest_Manager</param>
+				<param type="object" name="value">expr:Document["vacationsrequest:Manager"]
+				</param>
+			</operation>
+			<operation id="Context.SetVar">
+				<param type="string" name="name">vacationsrequest_Name</param>
+				<param type="object" name="value">expr:Document["vacationsrequest:Name"]
+				</param>
+			</operation>
+			<operation id="Context.SetVar">
+				<param type="string" name="name">vacationsrequest_Email</param>
+				<param type="object" name="value">expr:Document["vacationsrequest:Email"]
+				</param>
+			</operation>
+			<operation id="Context.SetVar">
+				<param type="string" name="name">vacationsrequest_AccruedSundays</param>
+				<param type="object" name="value">expr:Document["vacationsrequest:AccruedSundays"]
+				</param>
+			</operation>
+			<operation id="Context.SetVar">
+				<param type="string" name="name">vacationsrequest_PreviousYears</param>
+				<param type="object" name="value">expr:Document["vacationsrequest:PreviousYears"]
+				</param>
+			</operation>
+			<operation id="Context.SetVar">
+				<param type="string" name="name">vacationsrequest_Year</param>
+				<param type="object" name="value">expr:Document["vacationsrequest:Year"]
+				</param>
+			</operation>
+			<operation id="Context.SetVar">
+				<param type="string" name="name">vacationsrequest_Accrued_Monday_To_Saturday_Specific_Year</param>
+				<param type="object" name="value">expr:Document["vacationsrequest:Accrued_Monday_To_Saturday_Specific_Year"]
+				</param>
+			</operation>
+			<operation id="Context.SetVar">
+				<param type="string" name="name">vacationsrequest_Adjustments</param>
+				<param type="object" name="value">expr:Document["vacationsrequest:Adjustments"]
+				</param>
+			</operation>
+			<operation id="Context.SetVar">
+				<param type="string" name="name">vacationsrequest_Department</param>
+				<param type="object" name="value">expr:Document["vacationsrequest:Department"]
+				</param>
+			</operation>
+			<operation id="Context.SetVar">
+				<param type="string" name="name">vacationsrequest_Surname</param>
+				<param type="object" name="value">expr:Document["vacationsrequest:Surname"]
+				</param>
+			</operation>
+			<operation id="Context.SetVar">
+				<param type="string" name="name">vacationsrequest_AnualVacations</param>
+				<param type="object" name="value">expr:Document["vacationsrequest:AnualVacations"]
+				</param>
+			</operation>
+			<operation id="Document.Fetch">
+				<param type="document" name="value">expr:VRCreation</param>
+			</operation>
+			<operation id="Document.SetProperty">
+				<param type="string" name="xpath">vacationsrequest:Center</param>
+				<param type="boolean" name="save">false</param>
+				<param type="serializable" name="value">expr:vacationsrequest_Center == empty ? empty : vacationsrequest_Center
+				</param>
+			</operation>
+			<operation id="Document.SetProperty">
+				<param type="string" name="xpath">vacationsrequest:Seniority</param>
+				<param type="boolean" name="save">false</param>
+				<param type="serializable" name="value">expr:vacationsrequest_Seniority == empty ? empty : vacationsrequest_Seniority
+				</param>
+			</operation>
+			<operation id="Document.SetProperty">
+				<param type="string" name="xpath">vacationsrequest:AccruedMondayToSaturday</param>
+				<param type="boolean" name="save">false</param>
+				<param type="serializable" name="value">expr:vacationsrequest_AccruedMondayToSaturday == empty ? empty : vacationsrequest_AccruedMondayToSaturday
+				</param>
+			</operation>
+			<operation id="Document.SetProperty">
+				<param type="string" name="xpath">vacationsrequest:RegistrationNumber</param>
+				<param type="boolean" name="save">false</param>
+				<param type="serializable" name="value">expr:vacationsrequest_RegistrationNumber == empty ? empty : vacationsrequest_RegistrationNumber
+				</param>
+			</operation>
+			<operation id="Document.SetProperty">
+				<param type="string" name="xpath">vacationsrequest:Manager</param>
+				<param type="boolean" name="save">false</param>
+				<param type="serializable" name="value">expr:vacationsrequest_Manager == empty ? empty : vacationsrequest_Manager
+				</param>
+			</operation>
+			<operation id="Document.SetProperty">
+				<param type="string" name="xpath">vacationsrequest:Name</param>
+				<param type="boolean" name="save">false</param>
+				<param type="serializable" name="value">expr:vacationsrequest_Name == empty ? empty : vacationsrequest_Name
+				</param>
+			</operation>
+			<operation id="Document.SetProperty">
+				<param type="string" name="xpath">vacationsrequest:Email</param>
+				<param type="boolean" name="save">false</param>
+				<param type="serializable" name="value">expr:vacationsrequest_Email == empty ? empty : vacationsrequest_Email
+				</param>
+			</operation>
+			<operation id="Document.SetProperty">
+				<param type="string" name="xpath">vacationsrequest:AccruedSundays</param>
+				<param type="boolean" name="save">false</param>
+				<param type="serializable" name="value">expr:vacationsrequest_AccruedSundays == empty ? empty : vacationsrequest_AccruedSundays
+				</param>
+			</operation>
+			<operation id="Document.SetProperty">
+				<param type="string" name="xpath">vacationsrequest:PreviousYears</param>
+				<param type="boolean" name="save">false</param>
+				<param type="serializable" name="value">expr:vacationsrequest_PreviousYears == empty ? empty : vacationsrequest_PreviousYears
+				</param>
+			</operation>
+			<operation id="Document.SetProperty">
+				<param type="string" name="xpath">vacationsrequest:Year</param>
+				<param type="boolean" name="save">false</param>
+				<param type="serializable" name="value">expr:vacationsrequest_Year == empty ? empty : vacationsrequest_Year
+				</param>
+			</operation>
+			<operation id="Document.SetProperty">
+				<param type="string" name="xpath">vacationsrequest:Accrued_Monday_To_Saturday_Specific_Year</param>
+				<param type="boolean" name="save">false</param>
+				<param type="serializable" name="value">expr:vacationsrequest_Accrued_Monday_To_Saturday_Specific_Year == empty ? empty : vacationsrequest_Accrued_Monday_To_Saturday_Specific_Year
+				</param>
+			</operation>
+			<operation id="Document.SetProperty">
+				<param type="string" name="xpath">vacationsrequest:Adjustments</param>
+				<param type="boolean" name="save">false</param>
+				<param type="serializable" name="value">expr:vacationsrequest_Adjustments == empty ? empty : vacationsrequest_Adjustments
+				</param>
+			</operation>
+			<operation id="Document.SetProperty">
+				<param type="string" name="xpath">vacationsrequest:Department</param>
+				<param type="boolean" name="save">false</param>
+				<param type="serializable" name="value">expr:vacationsrequest_Department == empty ? empty : vacationsrequest_Department
+				</param>
+			</operation>
+			<operation id="Document.SetProperty">
+				<param type="string" name="xpath">vacationsrequest:Surname</param>
+				<param type="boolean" name="save">false</param>
+				<param type="serializable" name="value">expr:vacationsrequest_Surname == empty ? empty : vacationsrequest_Surname
+				</param>
+			</operation>
+			<operation id="Context.SetVar">
+				<param type="string" name="name">vacationsrequest_AnualVacations_size</param>
+				<param type="object" name="value">expr:vacationsrequest_AnualVacations.size()
+				</param>
+			</operation>
+			<operation id="Document.RemoveProperty">
+				<param type="string" name="xpath">vacationsrequest:AnualVacations</param>
+				<param type="boolean" name="save">false</param>
+			</operation>
+			<operation id="Context.RunScript">
+				<param type="string" name="script">
+					Document.setPropertyValue("vacationsrequest:AnualVacations", vacationsrequest_AnualVacations);vacationsrequest_Surname;
+				</param>
+			</operation>
+		</chain>
+
+
+
+		<!--
+                <chain id="updateManagerRRHH">
+                    <operation id="Context.FetchDocument" />
+                    <operation id="Athento.GetUsersByEmail">
+                        <param type="string" name="userEmail">expr:Document["userfilerrhh:Email"]</param>
+                        <param type="string" name="output">usersByEmail</param>
+                    </operation>
+                    <operation id="Document.SetProperty">
+                        <param type="string" name="xpath">userfilerrhh:Manager</param>
+                        <param type="boolean" name="save">false</param>
+                        <param type="serializable" name="value">expr: usersByEmail.isEmpty()?'':usersByEmail.get(0).getPropertyValue("user:username")</param>
+                    </operation>
+                </chain>
+        -->
 		<chain id="UserFileRRHH.autoSubscribe">
 			<operation id="Context.FetchDocument" />
 			<operation id="Athento.SubscribeUser">
