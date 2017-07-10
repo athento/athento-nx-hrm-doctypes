@@ -8,6 +8,7 @@ Bundle-Vendor: Athento
 Nuxeo-Component: OSGI-INF/Automation/User-actions/actions-contrib.xml,
  OSGI-INF/Automation/Event-handlers/eventhandler-contrib.xml,
  OSGI-INF/Automation/Automation-chains/chains-contrib.xml,
+ OSGI-INF/Automation/operations-contrib.xml,
  OSGI-INF/Branding/branding-contrib.xml,
  OSGI-INF/Content-model/Documents/doctype-contrib.xml,
  OSGI-INF/Content-model/Facets/facets-contrib.xml,
