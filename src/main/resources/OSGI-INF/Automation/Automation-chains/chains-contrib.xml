@@ -152,6 +152,11 @@
 				<param type="boolean" name="save">false</param>
 				<param type="serializable" name="value">expr:"" + pendingBusiness + " + " + pendingSundays</param>
 			</operation>
+			<operation id="Athento.CalculateHolidays">
+				<param type="date" name="incorporationDate">expr:item.get("StartDate")</param>
+				<param type="date" name="anualityStartDate">expr:item.get("EndDate")</param>
+				<param type="string" name="output">holidaysCalculated</param>
+			</operation>
 			<operation id="Context.SetVar">
 				<param type="string" name="name">iterationCounter</param>
 				<param type="integer" name="value">expr:iterationCounter + 1</param>
@@ -187,7 +192,7 @@
 				<param type="string" name="name">wf-psc-rrhh-general-director-group</param>
 				<param type="object" name="value">expr:@{"group:Level10"}</param>
 			</operation>
-		</chain>
+		</chain>valor_asegurado
 
 		<chain id="wf-selection-rrhh-calculateValidators">
 			<documentation>Based on several properties, calculates all levels'

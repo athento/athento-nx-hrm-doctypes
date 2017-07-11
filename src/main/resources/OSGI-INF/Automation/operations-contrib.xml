@@ -6,5 +6,6 @@
         <operation class="org.athento.nuxeo.hrm.operations.GetUsersByEmailOperation" />
         <operation class="org.athento.nuxeo.hrm.operations.GetUsersByFilter" />
         <operation class="org.athento.nuxeo.hrm.operations.AthentoSubscribeUserOperation" />
+        <operation class="org.athento.nuxeo.hrm.operations.CalculateHolidays" />
     </extension>
 </component>
